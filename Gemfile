@@ -11,6 +11,8 @@ gem 'omniauth'
 gem 'haml-rails'
 gem 'sass-rails'
 
+# https://github.com/sethvargo/bootstrap_forms
+gem 'bootstrap_forms'
 
 gem 'machinist', '>= 2.0.0.beta2'
 
