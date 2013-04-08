@@ -1,0 +1,4 @@
+*.swo
+*/*.orig
+*.orig
+db/*.sqlite3
