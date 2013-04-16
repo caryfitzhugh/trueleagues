@@ -34,6 +34,7 @@ GEM
       sass (~> 3.2)
     bootstrap_forms (2.1.1)
     builder (3.0.4)
+    coderay (1.0.9)
     devise (2.2.3)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
@@ -62,6 +63,7 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    method_source (0.8.1)
     mime-types (1.22)
     multi_json (1.7.2)
     omniauth (1.1.4)
@@ -69,6 +71,12 @@ GEM
       rack
     orm_adapter (0.4.0)
     polyglot (0.3.3)
+    pry (0.9.12)
+      coderay (~> 1.0.5)
+      method_source (~> 0.8)
+      slop (~> 3.4)
+    pry-nav (0.2.3)
+      pry (~> 0.9.10)
     rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -99,6 +107,7 @@ GEM
       railties (~> 3.2.0)
       sass (>= 3.1.10)
       tilt (~> 1.3)
+    slop (3.4.4)
     sprockets (2.2.2)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -129,6 +138,8 @@ DEPENDENCIES
   jquery-rails
   machinist (>= 2.0.0.beta2)
   omniauth
+  pry
+  pry-nav
   rails (= 3.2.13)
   sass-rails
   sqlite3

@@ -43,3 +43,7 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 
 # To use debugger
 # gem 'debugger'
+group :test, :development do
+  gem 'pry'
+  gem 'pry-nav'
+end
