@@ -11,19 +11,24 @@ class Team < ActiveRecord::Base
   has_many :managers, :through => :team_managers, :source => :user, :class_name => User
   has_many :team_managers
 
-  has_many :home_games, :class_name => Game
-  has_many :away_games, :class_name => Game
+  has_many :home_games, :class_name => Game, :foreign_key => "home_id"
+  has_many :away_games, :class_name => Game, :foreign_key => "away_id"
 
   def manager_email_address
     @manager_email_address
   end
 
+  def games
+    (home_games + away_games).sort_by {|g| g.start_time }
+  end
+
+  def manager
+    self.team_managers.select {|tm| tm.title == 'manager' }.first.user rescue nil
+  end
+
   def manager_email_address=(email)
     manager_user = User.where(:email=>email).first
-    if (!manager_user)
-      manager_user = User.invite!(:email => :email)
-    end
-    self.add_manager(manager_user, "manager")
+    self.add_manager(manager_user, "manager") if manager_user
   end
 
   def remove_player(user)

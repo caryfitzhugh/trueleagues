@@ -1,0 +1,21 @@
+.page-header
+  %h1
+    = @team.name
+    %small
+      = @team.league.name
+
+%table.table.table-striped.table-bordered
+  - if @team.games.empty?
+    %tr
+      %td
+        %h3.text-center No Games
+
+  - @team.games.each do |game|
+    %tr
+      %td
+        = game.id
+
+.pull-right
+  %a.btn.btn-primary{:href => new_team_player_path(@team)} Add Player
+%h2
+  Players

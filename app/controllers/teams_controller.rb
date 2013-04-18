@@ -1,8 +1,10 @@
 class TeamsController < ApplicationController
+  include OnboardHelper
+
   # GET /leagues/:id/teams
   # GET /leagues/:id/teams.json
   def index
-    @league  = League.find(params[:league_id])
+    @league  = League.find(params[:id])
     @teams   = Team.where(:league => @league)
 
     respond_to do |format|
@@ -14,7 +16,6 @@ class TeamsController < ApplicationController
   # GET /leagues/:id/teams/1
   # GET /leagues/:id/teams/1.json
   def show
-    @league = League.find(params[:league_id])
     @team   = Team.find(params[:id])
 
     respond_to do |format|
@@ -26,7 +27,7 @@ class TeamsController < ApplicationController
   # GET /leagues/:id/teams/new
   # GET /leagues/:id/teams/new.json
   def new
-    @league = League.find(params[:league_id])
+    @league = League.find(params[:id])
     @team   = Team.new
     @team.league = @league
 
@@ -38,21 +39,28 @@ class TeamsController < ApplicationController
 
   # GET /leagues/:id/teams/1/edit
   def edit
-    @league = League.find(params[:league_id])
     @team   = Team.find(params[:id])
   end
 
   # POST /leagues/:id/teams
   # POST /leagues/:id/teams.json
   def create
-    @league = League.find(params[:league_id])
+    @league = League.find(params[:id])
     @team   = Team.new(params[:team])
     @team.league = @league
 
     respond_to do |format|
-      if @league.save
+      if @team.save
+
         # Manager needs to be sent the email to come manage his team (and signup!)
-        UserMailer.team_created_email(@team.manager, @team, league_team_path(@league, @team)).deliver
+        # If he needs to sign-up, then he will be redirected there.
+        url_for_manager = team_path(@team.id, :attach_manager => params[:team][:manager_email_address])
+        email = params[:team][:manager_email_address]
+        url_for_manager = ActiveSupport::Base64.encode64(url_for_manager)
+        token = token_for_onboard(email, url_for_manager)
+        url_for_manager = signup_before_action_url(:token => token, :email => email, :go_to => url_for_manager)
+
+        UserMailer.team_created_email(email, @team, url_for_manager).deliver
 
         format.html { redirect_to @team, notice: 'Team was successfully created. Manager was emailed a link to the team.' }
         format.json { render json: @team, status: :created, location: @team }

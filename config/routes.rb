@@ -2,12 +2,18 @@ SoccerClubManager::Application.routes.draw do
   root :to => "home#index"
   devise_for :users
 
+  match "onboard/:token" => "onboard#signup_before_action", :as => :signup_before_action
+
+  resources :teams
+
+  get "teams/:id/players/new" => "players#new", :as => :new_team_player
+  post "teams/:id/players"    => "players#create"
+
+  get "leagues/:id/teams" => "teams#index", :as => :league_teams
+  post "leagues/:id/teams" => "teams#create"
+  get "leagues/:id/teams/new" => "teams#new", :as => :new_league_team
+
   resources :leagues do
-    resources :teams
-    member do
-      get   'edit_teams'
-      post  'update_teams'
-    end
   end
 
   # The priority is based upon order of creation:

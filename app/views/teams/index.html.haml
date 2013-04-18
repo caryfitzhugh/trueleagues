@@ -14,4 +14,4 @@
   - @league.teams.sort_by {|t| t.name }.each do |team|
     %tr
       %td
-        %a{:href => league_team_path(@league,team) }= team.name
+        %a{:href => team_path(@league,team) }= team.name

@@ -42,10 +42,6 @@ GEM
       orm_adapter (~> 0.1)
       railties (~> 3.1)
       warden (~> 1.2.1)
-    devise_invitable (1.1.7)
-      actionmailer (~> 3.0)
-      devise (>= 2.1.2)
-      railties (~> 3.0)
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
@@ -144,7 +140,6 @@ DEPENDENCIES
   bootstrap-sass (~> 2.3.1.0)
   bootstrap_forms
   devise
-  devise_invitable
   haml-rails
   jquery-rails
   machinist (>= 2.0.0.beta2)
