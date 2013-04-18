@@ -5,12 +5,7 @@ class TeamsController < ApplicationController
   # GET /leagues/:id/teams.json
   def index
     @league  = League.find(params[:id])
-    @teams   = Team.where(:league => @league)
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @teams }
-    end
+    redirect_to league_path(@league)
   end
 
   # GET /leagues/:id/teams/1
@@ -42,6 +37,13 @@ class TeamsController < ApplicationController
     @team   = Team.find(params[:id])
   end
 
+  def manager
+    @team   = Team.find(params[:id])
+    if @team.manager.nil?
+      @team.manager = current_user
+    end
+    redirect_to team_path(@team)
+  end
   # POST /leagues/:id/teams
   # POST /leagues/:id/teams.json
   def create
@@ -54,11 +56,12 @@ class TeamsController < ApplicationController
 
         # Manager needs to be sent the email to come manage his team (and signup!)
         # If he needs to sign-up, then he will be redirected there.
-        url_for_manager = team_path(@team.id, :attach_manager => params[:team][:manager_email_address])
+        url_for_manager = team_manager_assignment_path(@team.id)
+
         email = params[:team][:manager_email_address]
         url_for_manager = ActiveSupport::Base64.encode64(url_for_manager)
         token = token_for_onboard(email, url_for_manager)
-        url_for_manager = signup_before_action_url(:token => token, :email => email, :go_to => url_for_manager)
+        url_for_manager = signup_before_action_url(:token => token, :email => email, :description => "the #{@team.name} team page", :go_to => url_for_manager)
 
         UserMailer.team_created_email(email, @team, url_for_manager).deliver
 

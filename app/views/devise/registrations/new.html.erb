@@ -1,0 +1,26 @@
+
+<% if params[:user][:email] -%>
+  <h2> Welcome! </h2>
+  <p>
+    You're on your way.  We just need to set up a user account for you before you can go to <%= params[:description] %>.
+  </p>
+<%else%>
+  <h2>Sign up</h2>
+<% end %>
+
+<%= bootstrap_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+  <%= devise_error_messages! %>
+
+<% if params[:user][:email] -%>
+  <%= f.email_field :email, :autofocus => true , :value => params[:user][:email], :readonly => true %>
+<% else %>
+  <%= f.email_field :email, :autofocus => true , :value => params[:user][:email] %>
+<% end %>
+  <%= f.password_field :password %>
+
+  <%= f.password_field :password_confirmation %>
+
+  <%= f.submit "Sign up" %>
+<% end %>
+
+<%= render "devise/shared/links" %>

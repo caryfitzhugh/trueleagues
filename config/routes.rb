@@ -6,6 +6,7 @@ SoccerClubManager::Application.routes.draw do
 
   resources :teams
 
+  get "teams/:id/manager"     => "teams#manager", :as => :team_manager_assignment
   get "teams/:id/players/new" => "players#new", :as => :new_team_player
   post "teams/:id/players"    => "players#create"
 
