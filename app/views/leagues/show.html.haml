@@ -1,0 +1,31 @@
+.page-header
+  .pull-right
+    %a.btn{:href => edit_league_path(@league)} Edit League
+  %h1
+    = @league.name
+    %small
+      = l @league.start_date, :format => :short
+      = " - "
+      = l @league.end_date, :format => :long
+
+%h2 Standings
+%table.table.table-striped.table-bordered
+  %tr
+    %th &nbsp;
+    %th Name
+    %th Points
+  - standings = @league.standings
+  - if standings.empty?
+    %tr
+      %th{:colspan=>3}
+        %h3.text-center
+          No Teams
+  - standings.each_with_index do |standing, i|
+    %td= i + 1
+    %td= standing.team.name
+    %td= standing.points
+
+.pull-right
+  %a.btn{:href => league_teams_path(@league)} Edit Teams
+%h2
+  Teams

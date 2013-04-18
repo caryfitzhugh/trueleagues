@@ -2,6 +2,14 @@ SoccerClubManager::Application.routes.draw do
   root :to => "home#index"
   devise_for :users
 
+  resources :leagues do
+    resources :teams
+    member do
+      get   'edit_teams'
+      post  'update_teams'
+    end
+  end
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

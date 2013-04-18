@@ -13,3 +13,9 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
+//= require bootstrap-datepicker
+
+$(document).ready( function() {
+  $('[data-behavior~=quickdatepicker]').datepicker({autoclose: true, format: "yyyy/mm/dd"});
+  $('*[data-insert-on-click]').insert_content();
+});

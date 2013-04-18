@@ -1,5 +1,8 @@
 class Team < ActiveRecord::Base
-  # attr_accessible :title, :body
+  belongs_to :league
+
+  attr_accessible :name, :manager_email_address
+
   has_many :team_members
   has_many :players, :through => :team_members, :source => :user
 
@@ -10,6 +13,18 @@ class Team < ActiveRecord::Base
 
   has_many :home_games, :class_name => Game
   has_many :away_games, :class_name => Game
+
+  def manager_email_address
+    @manager_email_address
+  end
+
+  def manager_email_address=(email)
+    manager_user = User.where(:email=>email).first
+    if (!manager_user)
+      manager_user = User.invite!(:email => :email)
+    end
+    self.add_manager(manager_user, "manager")
+  end
 
   def remove_player(user)
     self.players = self.players.reject {|p| p.id == user.id  }

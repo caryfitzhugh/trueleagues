@@ -1,0 +1,18 @@
+.page-header
+  .pull-right
+    %form{:method => :get, :action => new_league_path}
+      %button.btn.btn-primary New League
+  %h1
+    Leagues
+
+%table.table.table-bordered.table-striped
+  - if @leagues.empty?
+    %tr
+      %td
+        %h3.text-center
+          No Teams
+  - @leagues.each do |league|
+    %tr
+      %td
+        %a{:href => league_path(league)}
+          %label= league.name

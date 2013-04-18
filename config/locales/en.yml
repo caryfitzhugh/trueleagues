@@ -3,3 +3,13 @@
 
 en:
   hello: "Hello world"
+
+  activerecord:
+    errors:
+      models:
+        league:
+          attributes:
+            start_date:
+              invalid_date: "Needs to start on a valid date"
+            end_date:
+              invalid_date: "Needs to end on a valid date"

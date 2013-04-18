@@ -1,10 +1,11 @@
 class CreateLeagues < ActiveRecord::Migration
   def change
     create_table :leagues do |t|
-      t.datetime :start_date
-      t.datetime :end_date
-      t.string   :name
+      t.date      :start_date
+      t.date      :end_date
+      t.string    :name
 
+      t.string    :scoring_system, :default => :default
       t.timestamps
     end
   end

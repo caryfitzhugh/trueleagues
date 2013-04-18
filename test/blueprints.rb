@@ -22,8 +22,9 @@ League.blueprint(:with_teams) do
   start_date { Time.now }
   end_date   { Time.now + 6.weeks }
   object.save!
-  object.add_team(Team.make!)
-  object.add_team(Team.make!)
+  object.teams << (Team.make!)
+  object.teams << (Team.make!)
+  object.save!
 end
 
 Game.blueprint do
@@ -31,10 +32,6 @@ Game.blueprint do
 end
 
 TeamMember.blueprint do
-  # Attributes here
-end
-
-LeagueTeams.blueprint do
   # Attributes here
 end
 

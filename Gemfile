@@ -7,15 +7,17 @@ gem 'rails', '3.2.13'
 
 gem 'sqlite3'
 gem 'devise'
+gem 'devise_invitable'
 gem 'omniauth'
 gem 'haml-rails'
 gem 'sass-rails'
 
 # https://github.com/sethvargo/bootstrap_forms
 gem 'bootstrap_forms'
+gem 'bootstrap-datepicker-rails'
 
 gem 'machinist', '>= 2.0.0.beta2'
-
+gem 'validates_timeliness', '~> 3.0'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
