@@ -1,7 +1,7 @@
-class TeamsController < ApplicationController
+class TeamMembersController < ApplicationController
   include OnboardHelper
 
-  # GET /leagues/:id/teams
+  # GET /team_member/:id
   # GET /leagues/:id/teams.json
   def index
     @league  = League.find(params[:id])
@@ -22,9 +22,8 @@ class TeamsController < ApplicationController
   # GET /leagues/:id/teams/new
   # GET /leagues/:id/teams/new.json
   def new
-    @league = League.find(params[:id])
-    @team   = Team.new
-    @team.league = @league
+    @team = Team.find(params[:id])
+    @team_member   = TeamMember.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -37,6 +36,13 @@ class TeamsController < ApplicationController
     @team   = Team.find(params[:id])
   end
 
+  def manager
+    @team   = Team.find(params[:id])
+    if @team.manager.nil?
+      @team.manager = current_user
+    end
+    redirect_to team_path(@team)
+  end
   # POST /leagues/:id/teams
   # POST /leagues/:id/teams.json
   def create
@@ -44,24 +50,22 @@ class TeamsController < ApplicationController
     @team   = Team.new(params[:team])
     @team.league = @league
 
-    # Manager needs to be sent the email to come manage his team.
-    # If he needs to sign-up, then he will be directed at the signup_before_action pat
-    email = params[:team][:manager_email_address]
-    @team.manager = manager_user = User.create_pending_or_find_existing(email)
+    @user = User.create_pending_or_find_existing(email)
+    @team.players << @user
+    @team.players.uniq!
 
     respond_to do |format|
       if @team.save
-        url_for_manager = team_path(@team)
 
-        # The manager is a pending manager so we need to send the link through the onboard url
-        if (@team.manager.pending?)
-          description = "teams/new_manager_description"
-          url_for_manager = onboard_new_user_path_generator(@team.manager, url_for_manager, description)
+        url_for_player = team_path(@team)
+        if (@user.pending?)
+          description = "team_members/welcome"
+          url_for_player = onboard_new_user_path_generator(@user, url_for_player, description)
         end
 
-        UserMailer.team_created_email(@team.manager.email, @team, url_for_manager).deliver
+        UserMailer.added_to_team_email(@user.email, @team, url_for_player).deliver
 
-        format.html { redirect_to @team, notice: 'Team was successfully created. Manager was emailed a link to the team.' }
+        format.html { redirect_to @team, notice: 'Player was successfully added. They were emailed a link to the team.' }
         format.json { render json: @team, status: :created, location: @team }
       else
         format.html { render action: "new" }

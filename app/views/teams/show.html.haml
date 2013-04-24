@@ -2,7 +2,9 @@
   %h1
     = @team.name
     %small
-      = @team.league.name
+      = breadcrumb_sep
+      %a{:href => league_path(@team.league)}
+        = @team.league.name
 
 %table.table.table-striped.table-bordered
   - if @team.games.empty?
@@ -16,6 +18,6 @@
         = game.id
 
 .pull-right
-  %a.btn.btn-primary{:href => new_team_player_path(@team)} Add Player
+  %a.btn.btn-primary{:href => new_team_member_path(@team)} Add Player
 %h2
   Players

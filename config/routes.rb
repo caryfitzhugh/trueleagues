@@ -2,13 +2,14 @@ SoccerClubManager::Application.routes.draw do
   root :to => "home#index"
   devise_for :users
 
-  match "onboard/:token" => "onboard#signup_before_action", :as => :signup_before_action
+  get  "onboard/:user_id/*token" => "onboard#get_onboard_user", :as => :onboard_user
+  post "onboard/:user_id/*token" => "onboard#onboard_user"
 
   resources :teams
 
-  get "teams/:id/manager"     => "teams#manager", :as => :team_manager_assignment
-  get "teams/:id/players/new" => "players#new", :as => :new_team_player
-  post "teams/:id/players"    => "players#create"
+
+  get "teams/:id/members/new" => "team_members#new", :as => :new_team_member
+  resources :team_members
 
   get "leagues/:id/teams" => "teams#index", :as => :league_teams
   post "leagues/:id/teams" => "teams#create"

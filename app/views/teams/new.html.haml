@@ -1,8 +1,10 @@
 .page-header
   %h1
-    = @league.name
+    Add A Team
     %small
-      New Team
+      = breadcrumb_sep
+      %a{:href => league_path(@team.league)}
+        = @team.league.name
 
 = bootstrap_form_for(:team, :url => league_teams_path(@league)) do |f|
   = f.text_field :name, :placeholder => "The name of the team"

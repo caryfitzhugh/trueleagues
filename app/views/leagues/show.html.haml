@@ -29,3 +29,16 @@
   %a.btn.btn-primary{:href => new_league_team_path(@league)} Add Team
 %h2
   Teams
+%table.table.table-striped.table-bordered
+  %tr
+    %th &nbsp;
+  - if @league.teams.empty?
+    %tr
+      %th{:colspan=>3}
+        %h3.text-center
+          No Teams
+  - else
+    - @league.teams.sort_by {|team| team.name }.each do |team|
+      %tr
+        %td
+          %a{:href => team_path(team)}= team.name
