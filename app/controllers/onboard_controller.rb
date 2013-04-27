@@ -1,6 +1,22 @@
 class OnboardController < ApplicationController
   include OnboardHelper
 
+  def resend_invitation
+    @user = User.find_by_id(params[:user_id])
+
+    if @user
+      if @user.pending?
+        @user.resend_invite!
+        flashback(:success, "Resent invitation to #{@user.email}")
+      else
+
+      end
+    else
+      head 404
+    end
+
+  end
+
   # This accepts a new incoming user.
   # Sends them to the password update page to set their password
   # And redirects them to the go_to destination

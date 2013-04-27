@@ -1,0 +1,26 @@
+** Resend invitations to players
+** Remove players
+ljjjjj
+
+
+https://github.com/ging/mailboxer -- perfect for us.
+
+change  user to have 'pending'
+need to have a 'merge user' command, to let you combine users into one account.
+
+
+* to add a team to a league , click add team.
+* it asks for a team name (if possible) and an email of the team manager(s).
+
+
+
+
+* those users are looked up, and a second page says 'create new account' or use these accounts'
+* then an email is sent to sign them up / tell them of the link to the team page (and they can then add users , etc)
+
+
+* To add to the league -- you get a link to the league page, and press 'join league'
+* It opens up a window, you can 'create a new team', or pick one of your existing teams.
+ ???
+* then that is 'pending' state...
+* to be approved by the league manager.

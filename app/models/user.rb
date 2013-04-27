@@ -12,6 +12,18 @@ class User < ActiveRecord::Base
   has_many :teams, :through => :team_members
   has_many :managed_teams, :class_name => Team, :foreign_key => :manager_id
 
+  serialize :invite_email_data
+
+  def resend_invite!
+    UserMailer.send("#{self.invite_email_data[:template]}_email", self.invite_email_data).deliver
+  end
+
+  def send_invite!(template, data={})
+    self.invite_email_data = {:email => self.email, :template => template}.merge(data)
+    save!
+    resend_invite!
+  end
+
   def self.find_for_authentication(conditions)
     super(conditions.merge(:pending => false))
   end

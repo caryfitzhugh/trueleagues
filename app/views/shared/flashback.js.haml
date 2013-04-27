@@ -1,0 +1,10 @@
+- failure ||= false
+- success ||= false
+
+- if success
+  - [success].flatten.each do |msg|
+    add_flash('#{escape_javascript(msg)}', 'success');
+
+- if failure
+  - [failure].flatten.each do |msg|
+    add_flash('#{escape_javascript(msg)}', 'error');

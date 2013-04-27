@@ -5,7 +5,7 @@ class CreateGames < ActiveRecord::Migration
       t.integer :home_id
       t.integer :away_id
 
-      t.integer   :location
+      t.integer   :location_id
       t.datetime  :start_time
       t.integer   :duration
       t.text      :notes

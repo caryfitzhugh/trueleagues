@@ -1,0 +1,22 @@
+.page-header
+  .pull-right
+    %form{:method => :get, :action => new_location_path}
+      %button.btn.btn-primary New Location
+  %h1
+    Locations
+
+%table.table.table-bordered.table-striped
+  %tr
+    %th
+      Name
+
+  - if @locations.empty?
+    %tr
+      %td
+        %h3.text-center
+          No Locations
+  - @locations.each do |location|
+    %tr
+      %td
+        %a{:href => location_path(location)}
+          %label= location.name

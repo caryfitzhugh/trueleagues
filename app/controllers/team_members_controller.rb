@@ -1,29 +1,11 @@
 class TeamMembersController < ApplicationController
   include OnboardHelper
 
-  # GET /team_member/:id
-  # GET /leagues/:id/teams.json
-  def index
-    @league  = League.find(params[:id])
-    redirect_to league_path(@league)
-  end
-
-  # GET /leagues/:id/teams/1
-  # GET /leagues/:id/teams/1.json
-  def show
-    @team   = Team.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @league }
-    end
-  end
-
   # GET /leagues/:id/teams/new
   # GET /leagues/:id/teams/new.json
   def new
     @team = Team.find(params[:id])
-    @team_member   = TeamMember.new
+    @team_member   = User.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -31,45 +13,34 @@ class TeamMembersController < ApplicationController
     end
   end
 
-  # GET /leagues/:id/teams/1/edit
-  def edit
-    @team   = Team.find(params[:id])
-  end
-
-  def manager
-    @team   = Team.find(params[:id])
-    if @team.manager.nil?
-      @team.manager = current_user
-    end
-    redirect_to team_path(@team)
-  end
   # POST /leagues/:id/teams
   # POST /leagues/:id/teams.json
   def create
-    @league = League.find(params[:id])
-    @team   = Team.new(params[:team])
-    @team.league = @league
-
-    @user = User.create_pending_or_find_existing(email)
-    @team.players << @user
-    @team.players.uniq!
+    @team = Team.find(params[:team_id])
+    @email = params[:user][:email]
+    @team_member = User.create_pending_or_find_existing(@email)
 
     respond_to do |format|
-      if @team.save
+      begin
+        @team.players.push(@team_member)
 
         url_for_player = team_path(@team)
-        if (@user.pending?)
+        if (@team_member.pending?)
           description = "team_members/welcome"
-          url_for_player = onboard_new_user_path_generator(@user, url_for_player, description)
+          url_for_player = onboard_new_user_path_generator(@team_member, url_for_player, description)
         end
 
-        UserMailer.added_to_team_email(@user.email, @team, url_for_player).deliver
+        @team_member.send_invite!(:player_added_to_team, :team_id => @team.id, :url => url_for_player)
 
         format.html { redirect_to @team, notice: 'Player was successfully added. They were emailed a link to the team.' }
         format.json { render json: @team, status: :created, location: @team }
-      else
+      rescue ActiveRecord::RecordInvalid => e
+
+        @team_member.errors.add :email, "That player is already on this team"
+
         format.html { render action: "new" }
         format.json { render json: @team.errors, status: :unprocessable_entity }
+
       end
     end
   end

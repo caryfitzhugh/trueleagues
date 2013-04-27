@@ -21,3 +21,24 @@
   %a.btn.btn-primary{:href => new_team_member_path(@team)} Add Player
 %h2
   Players
+
+%table.table.table-striped.table-bordered
+  %tr
+    %th &nbsp;
+    %th &nbsp;
+    %th.text-center &nbsp;
+  %tr
+    %td (Manager)
+    %td= @team.manager.email
+    %td.text-center
+      - if @team.manager.pending?
+        = bootstrap_form_for :manager, :remote => true, :url => resend_invitation_path(@team.manager), :method => :post do |f|
+          = f.submit "Resend Invitation", :class => "btn btn-small"
+  - @team.players.each do |player|
+    %tr
+      %td
+      %td= player.email
+      %td.text-center
+        - if player.pending?
+          = bootstrap_form_for :player, :remote => true, :url => resend_invitation_path(player), :method => :post do |f|
+            = f.submit "Resend Invitation", :class => "btn btn-small"

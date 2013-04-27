@@ -1,8 +1,8 @@
 .page-header
   %h1
-    Add Player
+    = @location.name
     %small
       = breadcrumb_sep
-      %a{:href => team_path(@team)}= @team.name
+      Edit
 
 = render "form"

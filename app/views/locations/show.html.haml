@@ -1,0 +1,39 @@
+.page-header
+  .pull-right
+    %a.btn{:href => edit_location_path(@location)} Edit Location
+  %h1
+    = @location.name
+    %small
+      = breadcrumb_sep
+      %a{:href=>locations_path} Locations
+
+%h2 Notes
+%p= @location.notes
+
+%h2 Games
+%table.table.table-striped.table-bordered
+  %tr
+    %th &nbsp;
+    %th Time
+    %th Home
+    %th Away
+
+  - games = @location.games
+
+  - if games.empty?
+    %tr
+      %th{:colspan=>4}
+        %h3.text-center
+          No Games
+  - games = games.sort_by {|g| [g.start_date]}
+  - games.each do |game|
+    %tr
+      %td= game.start_time
+      %td= game.home.name
+      %td= game.away.name
+
+-# If the user is an admin
+%h2 Admin
+.well
+  = bootstrap_form_for(@location, :method => :delete, :html => {:class => "form-inline no-margin"} ) do |f|
+    %button.btn.btn-warning{:type => :submit} Delete Location

@@ -18,4 +18,15 @@
 $(document).ready( function() {
   $('[data-behavior~=quickdatepicker]').datepicker({autoclose: true, format: "yyyy/mm/dd"});
   $('*[data-insert-on-click]').insert_content();
+  $('*[data-dismiss]').on('click', function() { $(this).closest(".alert").remove();});
 });
+
+function add_flash(message, klass) {
+  var wrap = $("<div class='alert alert-"+klass+"'></div>");
+  var close = $("<a class='close'>x</a>");
+  close.on('click', function() { wrap.remove(); });
+  wrap.append(close);
+  wrap.append("<div>"+message+"</div>");
+  $("#messages_container").append(wrap);
+  setTimeout(function() { wrap.remove(); }, 5000);
+}

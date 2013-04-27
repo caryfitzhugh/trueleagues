@@ -59,7 +59,7 @@ class TeamsController < ApplicationController
           url_for_manager = onboard_new_user_path_generator(@team.manager, url_for_manager, description)
         end
 
-        UserMailer.team_created_email(@team.manager.email, @team, url_for_manager).deliver
+        @team.manager.send_invite!(:team_created, :team_id => @team.id, :url => url_for_manager)
 
         format.html { redirect_to @team, notice: 'Team was successfully created. Manager was emailed a link to the team.' }
         format.json { render json: @team, status: :created, location: @team }

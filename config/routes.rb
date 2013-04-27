@@ -2,11 +2,13 @@ SoccerClubManager::Application.routes.draw do
   root :to => "home#index"
   devise_for :users
 
+  post "onboard/:user_id/resend_invitation" => "onboard#resend_invitation", :as => :resend_invitation
   get  "onboard/:user_id/*token" => "onboard#get_onboard_user", :as => :onboard_user
   post "onboard/:user_id/*token" => "onboard#onboard_user"
 
   resources :teams
 
+  resources :locations
 
   get "teams/:id/members/new" => "team_members#new", :as => :new_team_member
   resources :team_members

@@ -14,3 +14,8 @@
 body { padding-top: 60px; }
 @import "bootstrap-responsive";
 @import "bootstrap-datepicker";
+
+form.form-inline.no-margin {
+  margin: 0;
+}
+@import "simple_classes";
