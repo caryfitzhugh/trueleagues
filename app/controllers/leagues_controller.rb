@@ -1,4 +1,5 @@
 class LeaguesController < ApplicationController
+  include OnboardHelper
 
   # GET /leagues
   # GET /leagues.json
@@ -43,8 +44,22 @@ class LeaguesController < ApplicationController
   def create
     @league = League.new(params[:league])
 
+    email = @league.manager_email_address
+
+    @league.managers.push(manager_account = Account.create_pending_or_find_existing(email))
+
     respond_to do |format|
       if @league.save
+        url_for_manager = league_path(@league)
+
+        # The manager is a pending manager so we need to send the link through the onboard url
+        if (manager_account.pending?)
+          description = "leagues/new_manager_description"
+          url_for_manager = onboard_new_account_path_generator(manager_account, url_for_manager, description)
+        end
+
+        manager_account.send_invite!(:league_created, :league_id => @league.id, :url => url_for_manager)
+
         format.html { redirect_to @league, notice: 'League was successfully created.' }
         format.json { render json: @league, status: :created, location: @league }
       else

@@ -46,20 +46,21 @@ class TeamsController < ApplicationController
 
     # Manager needs to be sent the email to come manage his team.
     # If he needs to sign-up, then he will be directed at the signup_before_action pat
-    email = params[:team][:manager_email_address]
-    @team.manager = manager_user = User.create_pending_or_find_existing(email)
+    email = @team.manager_email_address
+
+    @team.managers.push(manager_account = Account.create_pending_or_find_existing(email))
 
     respond_to do |format|
       if @team.save
         url_for_manager = team_path(@team)
 
         # The manager is a pending manager so we need to send the link through the onboard url
-        if (@team.manager.pending?)
+        if (manager_account.pending?)
           description = "teams/new_manager_description"
-          url_for_manager = onboard_new_user_path_generator(@team.manager, url_for_manager, description)
+          url_for_manager = onboard_new_account_path_generator(manager_account, url_for_manager, description)
         end
 
-        @team.manager.send_invite!(:team_created, :team_id => @team.id, :url => url_for_manager)
+        manager_account.send_invite!(:team_created, :team_id => @team.id, :url => url_for_manager)
 
         format.html { redirect_to @team, notice: 'Team was successfully created. Manager was emailed a link to the team.' }
         format.json { render json: @team, status: :created, location: @team }

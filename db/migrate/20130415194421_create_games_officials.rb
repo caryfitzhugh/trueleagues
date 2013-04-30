@@ -3,7 +3,7 @@ class CreateGamesOfficials < ActiveRecord::Migration
     create_table :games_officials do |t|
       t.integer :user_id
       t.integer :game_id
-
+      t.string  :position
       t.timestamps
     end
   end

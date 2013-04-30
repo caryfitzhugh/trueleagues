@@ -16,26 +16,36 @@ class TeamMembersController < ApplicationController
   # POST /leagues/:id/teams
   # POST /leagues/:id/teams.json
   def create
+
     @team = Team.find(params[:team_id])
-    @email = params[:user][:email]
-    @team_member = User.create_pending_or_find_existing(@email)
+    @email = params[:user][:email].downcase.strip
+    binding.pry
+
+    @member_account = Account.create_pending_or_find_existing(@email)
+
+    @team_member = User.find_or_init(params[:user][:name], @member_account)
+
+    @team_membership = TeamMember.new
+    @team_membership.user = @team_member
+    @team_membership.team = @team
+
 
     respond_to do |format|
-      begin
-        @team.players.push(@team_member)
-
+      # Add to the team.
+      if @team_membership.save
+        # Setup the welcome message if the account is pending.
         url_for_player = team_path(@team)
-        if (@team_member.pending?)
+        if (@member_account.pending?)
           description = "team_members/welcome"
-          url_for_player = onboard_new_user_path_generator(@team_member, url_for_player, description)
+          url_for_player = onboard_new_account_path_generator(@member_account, url_for_player, description, {:user_id => @team_member.id} )
         end
 
-        @team_member.send_invite!(:player_added_to_team, :team_id => @team.id, :url => url_for_player)
+        # Send this email invite
+        @member_account.send_invite!(:player_added_to_team, :user_id => @team_member.id, :team_id => @team.id, :url => url_for_player)
 
         format.html { redirect_to @team, notice: 'Player was successfully added. They were emailed a link to the team.' }
         format.json { render json: @team, status: :created, location: @team }
-      rescue ActiveRecord::RecordInvalid => e
-
+      else
         @team_member.errors.add :email, "That player is already on this team"
 
         format.html { render action: "new" }

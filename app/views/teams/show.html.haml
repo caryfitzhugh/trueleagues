@@ -27,18 +27,20 @@
     %th &nbsp;
     %th &nbsp;
     %th.text-center &nbsp;
-  %tr
-    %td (Manager)
-    %td= @team.manager.email
-    %td.text-center
-      - if @team.manager.pending?
-        = bootstrap_form_for :manager, :remote => true, :url => resend_invitation_path(@team.manager), :method => :post do |f|
-          = f.submit "Resend Invitation", :class => "btn btn-small"
-  - @team.players.each do |player|
+  - @team.managers.each do |manager|
     %tr
       %td
-      %td= player.email
+        %em (Manager)
+      %td= manager.email
       %td.text-center
-        - if player.pending?
-          = bootstrap_form_for :player, :remote => true, :url => resend_invitation_path(player), :method => :post do |f|
+        - if manager.pending?
+          = bootstrap_form_for :manager, :remote => true, :url => resend_invitation_path(manager), :method => :post do |f|
+            = f.submit "Resend Manager Invitation", :class => "btn btn-small"
+  - @team.players.each do |player|
+    %tr
+      %td= player.name
+      %td= player.account.email
+      %td.text-center
+        - if player.account.pending?
+          = bootstrap_form_for :player, :remote => true, :url => resend_invitation_path(player.account), :method => :post do |f|
             = f.submit "Resend Invitation", :class => "btn btn-small"

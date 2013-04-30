@@ -3,7 +3,7 @@
 - if !@description.blank?
   = render @description
 
-= bootstrap_form_for(@user, :method => :post, :url => onboard_user_path(:token => @token, :user_id => @user.id)) do |f|
+= bootstrap_form_for(@account, :method => :post, :url => onboard_account_path(:token => @token, :account_id => @account.id)) do |f|
 
   = f.hidden_field_tag :destination, @destination
   = f.hidden_field_tag :description, @description

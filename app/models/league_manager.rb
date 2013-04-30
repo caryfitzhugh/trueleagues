@@ -1,6 +1,7 @@
-class LeagueManager < ActiveRecord::Base
+class  LeagueManager < ActiveRecord::Base
   belongs_to :league
-  belongs_to :user
+  belongs_to :account
   validates_presence_of :league
-  validates_presence_of :user
+  validates_presence_of :account
+  validates :league_id, :uniqueness => {:scope => :account_id}
 end

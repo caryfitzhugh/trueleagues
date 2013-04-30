@@ -4,5 +4,7 @@
   = f.text_field :start_date, 'data-behavior' => 'quickdatepicker'
   = f.text_field :end_date, 'data-behavior' => 'quickdatepicker'
 
+  = f.text_field :manager_email_address, :placeholder => "Email for league manager", :type => :email
+
   = f.collection_radio_buttons :scoring_system,  League::SCORING_SYSTEMS, :to_s, :titleize, :inline => true
   = f.actions

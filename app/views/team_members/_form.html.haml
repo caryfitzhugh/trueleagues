@@ -1,6 +1,7 @@
 = bootstrap_form_for(@team_member, :url => team_members_path, :method => :post) do |f|
   = f.hidden_field_tag :team_id , @team.id
   = f.text_field :email, :type => :email
+  = f.text_field :name
 
   = f.actions do
     = f.submit "Add Player"

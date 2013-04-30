@@ -1,57 +1,25 @@
-class User < ActiveRecord::Base
-  # Include default devise modules. Others available are:
-  # :token_authenticatable, :confirmable,
-  # :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+class User  < ActiveRecord::Base
+  attr_accessor :email
+  attr_accessible :email
 
-  # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me
+  belongs_to :account
+  validates_presence_of :account
 
-  # attr_accessible :title, :body
-  has_many :teams, :through => :team_members
-  has_many :managed_teams, :class_name => Team, :foreign_key => :manager_id
+  def self.find_or_init(name, account)
+    name = name.downcase.strip
 
-  serialize :invite_email_data
+    @player = User.where(:name => name, :account_id => account.id).first
 
-  def resend_invite!
-    UserMailer.send("#{self.invite_email_data[:template]}_email", self.invite_email_data).deliver
-  end
-
-  def send_invite!(template, data={})
-    self.invite_email_data = {:email => self.email, :template => template}.merge(data)
-    save!
-    resend_invite!
-  end
-
-  def self.find_for_authentication(conditions)
-    super(conditions.merge(:pending => false))
-  end
-
-  def self.create_pending_or_find_existing(email)
-    user = User.where(:email => email).first
-
-    if (user)
-      user
-    else
-      user = User.new
-      user.pending = true
-      user.email = email
-      user.save!
-      user
+    if (@player.nil?)
+      @player = User.new
+      @player.name = name
+      @player.account_id = account.id
     end
 
+    @player
   end
 
-  def pending?
-    !!self.pending
-  end
+  validates_uniqueness_of :name, :scope => [:account_id]
 
-  def password_required?
-    if pending?
-      false
-    else
-      super
-    end
-  end
+  before_save { |user| user.name = user.name.downcase.strip }
 end
