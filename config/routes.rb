@@ -1,4 +1,4 @@
-SoccerClubManager::Application.routes.draw do
+Trueleages::Application.routes.draw do
   root :to => "home#index"
   devise_for :accounts
 
