@@ -19,7 +19,6 @@ class TeamMembersController < ApplicationController
 
     @team = Team.find(params[:team_id])
     @email = params[:user][:email].downcase.strip
-    binding.pry
 
     @member_account = Account.create_pending_or_find_existing(@email)
 

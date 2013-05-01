@@ -74,6 +74,13 @@ GEM
     orm_adapter (0.4.0)
     pg (0.15.1)
     polyglot (0.3.3)
+    postmark (0.9.19)
+      json
+      rake
+    postmark-rails (0.4.1)
+      actionmailer
+      postmark (>= 0.9.0)
+      rake
     pry (0.9.12)
       coderay (~> 1.0.5)
       method_source (~> 0.8)
@@ -145,6 +152,7 @@ DEPENDENCIES
   machinist (>= 2.0.0.beta2)
   omniauth
   pg
+  postmark-rails
   pry
   pry-nav
   rails (= 3.2.13)

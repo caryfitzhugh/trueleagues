@@ -50,7 +50,9 @@ Trueleages::Application.configure do
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  config.action_mailer.default_url_options = { :host => 'www.trueleagues.com' }
+  config.action_mailer.delivery_method   = :postmark
+  config.action_mailer.postmark_settings = { :api_key => "50981978-fb28-4dc7-8c31-5131ad3d7225"}
 
   # Enable threaded mode
   # config.threadsafe!

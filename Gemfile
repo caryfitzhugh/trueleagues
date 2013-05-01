@@ -10,6 +10,7 @@ gem 'devise'
 gem 'omniauth'
 gem 'haml-rails'
 gem 'sass-rails'
+gem 'postmark-rails'
 
 # https://github.com/sethvargo/bootstrap_forms
 gem 'bootstrap_forms'
