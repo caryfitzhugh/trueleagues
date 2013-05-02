@@ -12,6 +12,7 @@ gem 'haml-rails'
 gem 'sass-rails'
 gem 'postmark-rails'
 gem 'redis'
+gem 'unicorn'
 
 # https://github.com/sethvargo/bootstrap_forms
 gem 'bootstrap_forms'

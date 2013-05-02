@@ -1,0 +1,18 @@
+.page-header
+  %h1
+    Received Emails
+
+%table.table.table-bordered.table-striped
+  %tr
+    %th From
+    %th To
+    %th Subject
+    %th Message
+    %th Date
+
+  - @messages.each do |msg|
+    %tr
+      %td= msg.From
+      %td= msg.To
+      %td= msg.Subject
+      %td= msg.Date
