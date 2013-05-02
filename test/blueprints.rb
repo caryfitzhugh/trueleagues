@@ -1,9 +1,14 @@
 require 'machinist/active_record'
 
-User.blueprint do
+Account.blueprint do
   email {"#{sn}@email.com"}
   password { "12345678" }
   password_confirmation { object.password }
+end
+
+User.blueprint do
+  name {"user_#{sn}"}
+  object.account = Account.make!
 end
 
 Team.blueprint do

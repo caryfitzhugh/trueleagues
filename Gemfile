@@ -11,6 +11,7 @@ gem 'omniauth'
 gem 'haml-rails'
 gem 'sass-rails'
 gem 'postmark-rails'
+gem 'redis'
 
 # https://github.com/sethvargo/bootstrap_forms
 gem 'bootstrap_forms'
@@ -46,6 +47,8 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 # To use debugger
 # gem 'debugger'
 group :test, :development do
+  gem 'sqlite3'
+  gem 'mock_redis'
   gem 'pry'
   gem 'pry-nav'
 end

@@ -20,6 +20,9 @@ Trueleages::Application.routes.draw do
   resources :leagues do
   end
 
+  post "mail/incoming" => "incoming_mail#ingest"
+  get  "mail"          => "incoming_mail#index"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

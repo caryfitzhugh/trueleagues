@@ -1,5 +1,5 @@
 class AccountMailer < ActionMailer::Base
-  default from: "manager@soccer-club-manager.com"
+  default from:     "system@trueleagues.com"
 
   def league_created_email(data)
     @email = data[:email]
