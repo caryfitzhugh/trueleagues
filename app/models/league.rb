@@ -1,6 +1,6 @@
 class League < ActiveRecord::Base
   # attr_accessible :title, :body
-  attr_accessible :name, :start_date, :end_date, :scoring_system, :manager_email_address
+  attr_accessible :name, :start_date, :end_date, :scoring_system
   has_many :teams
 
   has_many :managers, :through => :league_managers, :source => :account
@@ -14,8 +14,6 @@ class League < ActiveRecord::Base
   validates_presence_of :name
 
   before_save { |league| league.name = league.name.downcase.strip }
-
-  attr_accessor :manager_email_address
 
   SCORING_SYSTEMS = %w( default )
 
