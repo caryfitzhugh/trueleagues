@@ -22,9 +22,10 @@
         %h3.text-center
           No Games
   - standings.each_with_index do |standing, i|
-    %td= i + 1
-    %td= standing.team.name
-    %td= standing.points
+    %tr
+      %td= i + 1
+      %td= standing.team.name
+      %td= standing.points
 
 = display_message_board(@league)
 
