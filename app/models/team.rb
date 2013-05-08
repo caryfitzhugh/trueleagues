@@ -18,9 +18,10 @@ class Team < ActiveRecord::Base
 
   before_save { |team| team.name = team.name.downcase.strip }
 
-  before_create do |team|
+  before_save do |team|
     if (team.message_board.nil?)
-      team.message_board = MessageBoard.create!
+      mb = MessageBoard.create!
+      team.message_board_id = mb.id
     end
   end
 

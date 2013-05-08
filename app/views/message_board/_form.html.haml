@@ -1,0 +1,4 @@
+= bootstrap_form_for(@message, :url => message_board_path(:target_id => @target.id, :target_type => @target.class.to_s)) do |f|
+  = f.text_area :message
+
+  = f.actions

@@ -4,6 +4,7 @@
   %h1
     = @league.name
     %small
+      = breadcrumb_sep
       = l @league.start_date, :format => :short
       = " - "
       = l @league.end_date, :format => :long
@@ -19,13 +20,13 @@
     %tr
       %th{:colspan=>3}
         %h3.text-center
-          No Teams
+          No Games
   - standings.each_with_index do |standing, i|
     %td= i + 1
     %td= standing.team.name
     %td= standing.points
 
-= display_message_board(@league.message_board)
+= display_message_board(@league)
 
 .pull-right
   %a.btn.btn-primary{:href => new_league_team_path(@league)} Add Team

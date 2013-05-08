@@ -10,12 +10,12 @@ Trueleages::Application.routes.draw do
 
   resources :locations
 
-  scope :shallow_path => "messages" do
-    resources :message_boards do
-      #resources :message_board_messages, :shallow => false, :only   => [:index, :create, :new]
-      resources :message_board_messages, :shallow => true
-    end
-  end
+  get     "message_board/:target_type/:target_id/messages" => "message_board#index", :as => :message_board
+  post    "message_board/:target_type/:target_id/messages" => "message_board#create"
+  get     "message_board/:target_type/:target_id/messages/new" => "message_board#new", :as => :new_message_board_message
+  get     "message_board/messages/:id"  => "message_board#show", :as => :message_board_message
+  delete  "message_board/messages/:id"  => "message_board#destroy"
+
 
   get "teams/:id/members/new" => "team_members#new", :as => :new_team_member
   resources :team_members

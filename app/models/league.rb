@@ -17,9 +17,10 @@ class League < ActiveRecord::Base
 
   before_save { |league| league.name = league.name.downcase.strip }
 
-  before_create do |league|
+  before_save do |league|
     if (league.message_board.nil?)
-      league.message_board = MessageBoard.create!
+      mb = MessageBoard.create!
+      league.message_board_id = mb.id
     end
   end
 

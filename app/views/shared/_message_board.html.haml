@@ -1,6 +1,24 @@
 .pull-right
-  %a.btn.btn-primary{:href => new_message_board_message_board_message_path(:message_board_id => message_board.id)} Post Message
+  %a.btn.btn-primary{:href => new_message_board_message_path(:target_type => target.class.to_s, :target_id => target.id)} Post Message
+
 %h2
   Messages
-- message_board.messages.each do |message|
-  .message-board
+
+%table.table.table-striped.table-bordered
+  %tr
+    %th{:colspan => 3} &nbsp;
+
+  - if target.message_board.messages.empty?
+    %tr
+      %th{:colspan => 3}
+        %h3.text-center
+          No Messages
+
+  - target.message_board.messages.each do |message|
+    %tr
+      %td
+        = message.user.name rescue "Unknown"
+      %td
+        = message.message
+      %td
+        %em= message.created_at
