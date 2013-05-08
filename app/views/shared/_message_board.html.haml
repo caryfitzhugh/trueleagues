@@ -1,5 +1,5 @@
 .pull-right
-  %a.btn.btn-primary{:href => new_message_board_message_board_message_path(message_board)} Post Message
+  %a.btn.btn-primary{:href => new_message_board_message_board_message_path(:message_board_id => message_board.id)} Post Message
 %h2
   Messages
 - message_board.messages.each do |message|
