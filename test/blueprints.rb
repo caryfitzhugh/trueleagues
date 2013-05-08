@@ -56,3 +56,7 @@ Location.blueprint do
   name { "location_#{sn}" }
   notes { "note note note #{sn}" }
 end
+
+MessageBoard.blueprint do
+  # Attributes here
+end

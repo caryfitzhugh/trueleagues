@@ -25,6 +25,8 @@
     %td= standing.team.name
     %td= standing.points
 
+= display_message_board(@league.message_board)
+
 .pull-right
   %a.btn.btn-primary{:href => new_league_team_path(@league)} Add Team
 %h2

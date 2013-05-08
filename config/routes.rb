@@ -10,6 +10,13 @@ Trueleages::Application.routes.draw do
 
   resources :locations
 
+  scope :shallow_path => "messages" do
+    resources :message_boards do
+      #resources :message_board_messages, :shallow => false, :only   => [:index, :create, :new]
+      resources :message_board_messages, :shallow => true
+    end
+  end
+
   get "teams/:id/members/new" => "team_members#new", :as => :new_team_member
   resources :team_members
 

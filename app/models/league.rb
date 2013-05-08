@@ -6,6 +6,8 @@ class League < ActiveRecord::Base
   has_many :managers, :through => :league_managers, :source => :account
   has_many :league_managers
 
+  belongs_to :message_board
+
   has_many :games
 
   validates_date :start_date
@@ -14,6 +16,12 @@ class League < ActiveRecord::Base
   validates_presence_of :name
 
   before_save { |league| league.name = league.name.downcase.strip }
+
+  before_create do |league|
+    if (league.message_board.nil?)
+      league.message_board = MessageBoard.create!
+    end
+  end
 
   SCORING_SYSTEMS = %w( default )
 
