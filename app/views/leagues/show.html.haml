@@ -30,6 +30,22 @@
 = display_message_board(@league)
 
 .pull-right
+  %a.btn.btn-primary{:href => league_schedule_path(@league)} Edit Schedule
+%h2
+  Schedule
+%table.table.table-striped.table-bordered
+  %tr
+    %th &nbsp;
+  - if @league.games.empty?
+    %tr
+      %th{:colspan=>3}
+        %h3.text-center
+          No Games
+  - else
+    %tr
+      %td Schedule
+
+.pull-right
   %a.btn.btn-primary{:href => new_league_team_path(@league)} Add Team
 %h2
   Teams

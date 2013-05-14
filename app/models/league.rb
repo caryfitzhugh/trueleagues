@@ -9,6 +9,8 @@ class League < ActiveRecord::Base
   belongs_to :message_board
 
   has_many :games
+  has_many :locations, :through => :league_locations
+  has_many :league_locations
 
   validates_date :start_date
   validates_date :end_date

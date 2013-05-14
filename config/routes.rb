@@ -24,7 +24,10 @@ Trueleages::Application.routes.draw do
   post "leagues/:id/teams" => "teams#create"
   get "leagues/:id/teams/new" => "teams#new", :as => :new_league_team
 
+  #get "leagues/:id/schedule" => "teams#schedule", :as => :schedule_league
   resources :leagues do
+    get :schedule
+    post :update_schedule
   end
 
   post "mail/incoming" => "incoming_mail#ingest"
