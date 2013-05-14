@@ -83,4 +83,12 @@ class LeaguesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def schedule
+
+  end
+
+  def update_schedule
+
+  end
 end
