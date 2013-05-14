@@ -85,6 +85,7 @@ class LeaguesController < ApplicationController
   end
 
   def schedule
+    @league = League.find(params[:league_id])
 
   end
 
