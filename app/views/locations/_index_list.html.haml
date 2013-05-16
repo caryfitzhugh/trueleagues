@@ -1,0 +1,15 @@
+%table.table.table-bordered.table-striped
+  %tr
+    %th
+      Name
+
+  - if locations.empty?
+    %tr
+      %td
+        %h3.text-center
+          No Locations
+  - locations.each do |location|
+    %tr
+      %td
+        %a{:href => location_path(location)}
+          %label= location.name

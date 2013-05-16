@@ -28,6 +28,11 @@ Trueleages::Application.routes.draw do
   resources :leagues do
     get :schedule
     post :update_schedule
+
+
+    get :locations
+    post :add_location
+    delete :remove_location
   end
 
   post "mail/incoming" => "incoming_mail#ingest"
