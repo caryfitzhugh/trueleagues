@@ -1,13 +1,14 @@
 .page-header
   %h1
-    Add A Team
+    New Team
     %small
       = breadcrumb_sep
-      %a{:href => league_path(@team.league)}
-        = @team.league.name
+      %a{:href => league_path(@league)}
+        = @league.name
 
 = bootstrap_form_for(:team, :url => league_teams_path(@league)) do |f|
   = f.text_field :name, :placeholder => "The name of the team"
   = f.text_field :manager_email_address, :placeholder => "Email for team manager", :type => :email
 
-  = f.actions
+  = f.actions do
+    = [f.submit("Create Team"), f.cancel].join(" ").html_safe

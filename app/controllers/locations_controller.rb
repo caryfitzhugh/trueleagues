@@ -13,6 +13,11 @@ class LocationsController < ApplicationController
   # GET /locations/1
   # GET /locations/1.json
   def show
+    @league = if (params[:league_id])
+        League.find(params[:league_id])
+      else
+        nil
+      end
 
     @location = Location.find(params[:id])
 
@@ -41,12 +46,19 @@ class LocationsController < ApplicationController
   # POST /locations
   # POST /locations.json
   def create
-
     @location = Location.new(params[:location])
+    @league   = League.find(params[:league_id]) rescue nil
 
     respond_to do |format|
       if @location.save
-        format.html { redirect_to @location, notice: 'Location was successfully created.' }
+        format.html {
+          if (@league)
+            @league.locations.push(@location)
+            redirect_to league_locations_path(@league), notice: "Location was successfully created and added to #{@league.name}."
+          else
+            redirect_to locations_path(@league), notice: 'Location was successfully created.'
+          end
+        }
         format.json { render json: @location, status: :created, location: @location }
       else
         format.html { render action: "new" }

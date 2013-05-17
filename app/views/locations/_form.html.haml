@@ -1,4 +1,5 @@
 = bootstrap_form_for(@location) do |f|
+  = f.hidden_field_tag :league_id, params[:league_id]
   = f.text_field :name
   = f.text_area  :notes
 

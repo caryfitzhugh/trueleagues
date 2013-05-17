@@ -10,12 +10,13 @@
       = l @league.end_date, :format => :long
 
 .pull-right
-
   %a.btn.btn-primary{:href => league_locations_path(@league)} Locations
+  %a.btn.btn-primary{:href => league_games_path(@league)} Games
+  %a.btn.btn-primary{:href => league_teams_path(@league)} Teams
 
-  %a.btn.btn-primary{:href => league_schedule_path(@league)} Schedule
+.clearfix
 
-  %a.btn.btn-primary{:href => new_league_team_path(@league)} Teams
+= display_message_board(@league)
 
 %h2 Standings
 %table.table.table-striped.table-bordered
@@ -34,38 +35,3 @@
       %td= i + 1
       %td= standing.team.name
       %td= standing.points
-
-= display_message_board(@league)
-
-.clearfix
-
-.pull-right
-%h2
-  Schedule
-%table.table.table-striped.table-bordered
-  %tr
-    %th &nbsp;
-  - if @league.games.empty?
-    %tr
-      %th{:colspan=>3}
-        %h3.text-center
-          No Games
-  - else
-    %tr
-      %td Schedule
-
-%h2
-  Teams
-%table.table.table-striped.table-bordered
-  %tr
-    %th &nbsp;
-  - if @league.teams.empty?
-    %tr
-      %th{:colspan=>3}
-        %h3.text-center
-          No Teams
-  - else
-    - @league.teams.sort_by {|team| team.name }.each do |team|
-      %tr
-        %td
-          %a{:href => team_path(team)}= team.name

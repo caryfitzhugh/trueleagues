@@ -5,7 +5,13 @@
     = @location.name
     %small
       = breadcrumb_sep
-      %a{:href=>locations_path} Locations
+      - if @league
+        %a{:href=> league_locations_path(@league)}
+          Locations
+        = breadcrumb_sep
+        %a{:href=> league_path(@league)}= @league.name
+      - else
+        %a{:href=>locations_path} Locations
 
 %h2 Notes
 %p= @location.notes

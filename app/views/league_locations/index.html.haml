@@ -20,7 +20,7 @@
   - @league.locations.each do |location|
     %tr
       %td
-        %a{:href => location_path(location)}
+        %a{:href => league_location_path(@league,location)}
           %label= location.name
       %td
         = bootstrap_form_for @location, :method => :delete, :url => league_location_path(:league_id => @league.id, :id => location.id) do |f|
@@ -28,8 +28,8 @@
           = f.submit("X")
 
 .pull-right
-  %form{:method => :get, :action => new_location_path}
-    %button.btn.btn-primary New Location
+  %a.btn.btn-primary{:href => new_location_path(:league_id => @league.id)} New Location
+
 %h2 Add Locations
 = bootstrap_form_for :league_location, :method => :post,   :url => league_locations_path(@league) do |f|
   = f.collection_select :location_id, @locations, :id, :name

@@ -6,10 +6,6 @@ Trueleages::Application.routes.draw do
   get  "onboard/:account_id/*token" => "onboard#get_onboard_account", :as => :onboard_account
   post "onboard/:account_id/*token" => "onboard#onboard_account"
 
-  resources :teams
-
-  resources :locations
-
   get     "message_board/:target_type/:target_id/messages" => "message_board#index", :as => :message_board
   post    "message_board/:target_type/:target_id/messages" => "message_board#create"
   get     "message_board/:target_type/:target_id/messages/new" => "message_board#new", :as => :new_message_board_message
@@ -20,13 +16,22 @@ Trueleages::Application.routes.draw do
   get "teams/:id/members/new" => "team_members#new", :as => :new_team_member
   resources :team_members
 
-  get "leagues/:id/teams" => "teams#index", :as => :league_teams
-  post "leagues/:id/teams" => "teams#create"
-  get "leagues/:id/teams/new" => "teams#new", :as => :new_league_team
+  get "leagues/:league_id/teams" => "league_teams#index", :as => :league_teams
+  post "leagues/:league_id/teams" => "league_teams#create"
+  get "leagues/:league_id/teams/new" => "league_teams#new", :as => :new_league_team
+  get "teams/:id" => "league_teams#show" , :as => :team
+  put "teams/:id" => "league_teams#update"
+
+  resources :locations
 
   get "leagues/:league_id/locations" => "league_locations#index", :as => :league_locations
   delete "leagues/:league_id/locations/:id" => "league_locations#destroy", :as => :league_location
   post "leagues/:league_id/locations" => "league_locations#create"
+  get "leagues/:league_id/locations/:id" => "locations#show"
+
+  get "leagues/:league_id/games" => "league_games#index", :as => :league_games
+  delete "leagues/:league_id/games/:id" => "league_games#destroy", :as => :league_game
+  post "leagues/:league_id/games" => "league_games#create"
 
   resources :leagues do
     get :schedule

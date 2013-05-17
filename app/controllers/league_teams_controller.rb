@@ -1,11 +1,9 @@
-class TeamsController < ApplicationController
+class LeagueTeamsController < ApplicationController
   include OnboardHelper
 
-  # GET /leagues/:id/teams
-  # GET /leagues/:id/teams.json
   def index
-    @league  = League.find(params[:id])
-    redirect_to league_path(@league)
+    @league = League.find(params[:league_id])
+    @teams = @league.teams
   end
 
   # GET /leagues/:id/teams/1
@@ -22,7 +20,7 @@ class TeamsController < ApplicationController
   # GET /leagues/:id/teams/new
   # GET /leagues/:id/teams/new.json
   def new
-    @league = League.find(params[:id])
+    @league = League.find(params[:league_id])
     @team   = Team.new
     @team.league = @league
 
@@ -40,7 +38,7 @@ class TeamsController < ApplicationController
   # POST /leagues/:id/teams
   # POST /leagues/:id/teams.json
   def create
-    @league = League.find(params[:id])
+    @league = League.find(params[:league_id])
     @team   = Team.new(params[:team])
     @team.league = @league
 
@@ -56,7 +54,7 @@ class TeamsController < ApplicationController
 
         # The manager is a pending manager so we need to send the link through the onboard url
         if (manager_account.pending?)
-          description = "teams/new_manager_description"
+          description = "league_teams/new_manager_description"
           url_for_manager = onboard_new_account_path_generator(manager_account, url_for_manager, description)
         end
 
