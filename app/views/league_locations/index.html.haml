@@ -3,7 +3,8 @@
     Locations
     %small
       = breadcrumb_sep
-      = @league.name
+      %a{:href => league_path(@league)}
+        = @league.name
 
 %h2 Locations
 %table.table.table-bordered.table-striped
@@ -22,16 +23,15 @@
         %a{:href => location_path(location)}
           %label= location.name
       %td
-        = bootstrap_form_for @location, :method => :delete, :url => league_remove_location_path(@league) do |f|
+        = bootstrap_form_for @location, :method => :delete, :url => league_location_path(:league_id => @league.id, :id => location.id) do |f|
           = f.hidden_field_tag :location_id, location.id
           = f.submit("X")
-
 
 .pull-right
   %form{:method => :get, :action => new_location_path}
     %button.btn.btn-primary New Location
 %h2 Add Locations
-= bootstrap_form_for :league_location, :method => :post,   :url => league_add_location_path(@league) do |f|
+= bootstrap_form_for :league_location, :method => :post,   :url => league_locations_path(@league) do |f|
   = f.collection_select :location_id, @locations, :id, :name
   = f.actions do
-    = [f.submit("Add Location"), f.cancel].join(" ").html_safe
+    = [f.submit("Add Location")].join(" ").html_safe

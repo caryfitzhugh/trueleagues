@@ -9,6 +9,14 @@
       = " - "
       = l @league.end_date, :format => :long
 
+.pull-right
+
+  %a.btn.btn-primary{:href => league_locations_path(@league)} Locations
+
+  %a.btn.btn-primary{:href => league_schedule_path(@league)} Schedule
+
+  %a.btn.btn-primary{:href => new_league_team_path(@league)} Teams
+
 %h2 Standings
 %table.table.table-striped.table-bordered
   %tr
@@ -29,8 +37,9 @@
 
 = display_message_board(@league)
 
+.clearfix
+
 .pull-right
-  %a.btn.btn-primary{:href => league_schedule_path(@league)} Edit Schedule
 %h2
   Schedule
 %table.table.table-striped.table-bordered
@@ -45,8 +54,6 @@
     %tr
       %td Schedule
 
-.pull-right
-  %a.btn.btn-primary{:href => new_league_team_path(@league)} Add Team
 %h2
   Teams
 %table.table.table-striped.table-bordered

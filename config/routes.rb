@@ -24,15 +24,13 @@ Trueleages::Application.routes.draw do
   post "leagues/:id/teams" => "teams#create"
   get "leagues/:id/teams/new" => "teams#new", :as => :new_league_team
 
-  #get "leagues/:id/schedule" => "teams#schedule", :as => :schedule_league
+  get "leagues/:league_id/locations" => "league_locations#index", :as => :league_locations
+  delete "leagues/:league_id/locations/:id" => "league_locations#destroy", :as => :league_location
+  post "leagues/:league_id/locations" => "league_locations#create"
+
   resources :leagues do
     get :schedule
     post :update_schedule
-
-
-    get :locations
-    post :add_location
-    delete :remove_location
   end
 
   post "mail/incoming" => "incoming_mail#ingest"

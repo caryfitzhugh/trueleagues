@@ -91,35 +91,4 @@ class LeaguesController < ApplicationController
   def update_schedule
 
   end
-
-  def locations
-    @league = League.find(params[:league_id])
-    @location = Location.new
-    @locations = Location.all
-    @locations = @locations - @league.locations
-
-  end
-
-  def add_location
-    @league = League.find(params[:league_id])
-    @location = Location.find(params[:league_location][:location_id])
-    begin
-      @league.locations.push(@location)
-      redirect_to league_locations_path(@league, :notice => "Added #{@location.name}")
-    rescue ActiveRecord::RecordInvalid => e
-      redirect_to league_locations_path(@league, :notice => "Error adding #{@location.name}")
-    end
-  end
-
-  def remove_location
-    @league = League.find(params[:league_id])
-    @location = Location.find(params[:location_id])
-    begin
-      @league.locations.delete(@location)
-      redirect_to league_locations_path(@league, :notice => "Removed #{@location.name}")
-    rescue ActiveRecord::RecordInvalid => e
-      redirect_to league_locations_path(@league, :notice => "Error removing #{@location.name}")
-    end
-
-  end
 end
