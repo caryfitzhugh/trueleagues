@@ -16,7 +16,6 @@ gem 'unicorn'
 
 # https://github.com/sethvargo/bootstrap_forms
 gem 'bootstrap_forms',           "3.0.1" #:git =>"git://github.com/potenza/bootstrap_form.git" , :ref => "0a519efa8fd1c16ef370cdb740521a78f1cbd586"
-gem 'bootstrap-datepicker-rails'
 
 gem 'machinist', '>= 2.0.0.beta2'
 gem 'validates_timeliness', '~> 3.0'

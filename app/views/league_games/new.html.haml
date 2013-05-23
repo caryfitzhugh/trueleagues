@@ -1,0 +1,24 @@
+.page-header
+  %h1
+    New Game
+    %small
+      = breadcrumb_sep
+      %a{:href => league_games_path(@league)}
+        Games
+      = breadcrumb_sep
+      %a{:href => league_path(@league)}
+        = @league.name
+
+= bootstrap_form_for(:game, :url => league_game_path(@league)) do |f|
+  = f.select :location
+  = home_team
+  = away_team
+  = start_time
+  = f.text_field :start_time, 'data-behavior' => 'datetimepicker'
+  = duration
+
+  = f.text_field :name, :placeholder => "The name of the team"
+  = f.text_field :manager_email_address, :placeholder => "Email for team manager", :type => :email
+
+  = f.actions do
+    = [f.submit("Create Team"), f.cancel].join(" ").html_safe

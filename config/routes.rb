@@ -31,7 +31,9 @@ Trueleages::Application.routes.draw do
 
   get "leagues/:league_id/games" => "league_games#index", :as => :league_games
   delete "leagues/:league_id/games/:id" => "league_games#destroy", :as => :league_game
+  put "leagues/:league_id/games/:id" => "league_games#update"
   post "leagues/:league_id/games" => "league_games#create"
+  get "leagues/:league_id/games/new" => "league_games#new", :as => :new_league_game
 
   resources :leagues do
     get :schedule

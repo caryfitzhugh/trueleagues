@@ -13,10 +13,10 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
-//= require bootstrap-datepicker
 
 $(document).ready( function() {
-  $('[data-behavior~=quickdatepicker]').datepicker({autoclose: true, format: "yyyy/mm/dd"});
+  $('[data-behavior~=datepicker]').datetimepicker({autoclose: true, format: "yyyy-mm-dd", minView: '2'});
+  $('[data-behavior~=datetimepicker]').datetimepicker({autoclose: true, format: "yyyy-mm-dd hh:ii", showMeridian: true, minView: '0'});
   $('*[data-insert-on-click]').insert_content();
   $('*[data-dismiss]').on('click', function() { $(this).closest(".alert").remove();});
 });

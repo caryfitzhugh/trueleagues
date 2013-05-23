@@ -12,9 +12,8 @@ class League < ActiveRecord::Base
   has_many :locations, :through => :league_locations
   has_many :league_locations
 
-  validates_date :start_date
-  validates_date :end_date
   validates_date :start_date, :before => :end_date
+  validates_date :end_date
   validates_presence_of :name
 
   before_save { |league| league.name = league.name.downcase.strip }

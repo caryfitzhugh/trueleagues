@@ -1,8 +1,8 @@
 = bootstrap_form_for(@league) do |f|
   = f.text_field :name
 
-  = f.text_field :start_date, 'data-behavior' => 'quickdatepicker'
-  = f.text_field :end_date, 'data-behavior' => 'quickdatepicker'
+  = f.text_field :start_date, 'data-behavior' => 'datepicker'
+  = f.text_field :end_date, 'data-behavior' => 'datepicker'
 
   = f.collection_radio_buttons :scoring_system,  League::SCORING_SYSTEMS, :to_s, :titleize, :inline => true
   = f.actions

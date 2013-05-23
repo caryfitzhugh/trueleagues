@@ -5,3 +5,7 @@
       = breadcrumb_sep
       %a{:href => league_path(@league)}
         = @league.name
+
+
+.pull-right
+  %a.btn.btn-primary{:href => new_league_game_path(@league)} New Game
