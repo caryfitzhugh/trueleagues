@@ -9,16 +9,11 @@
       %a{:href => league_path(@league)}
         = @league.name
 
-= bootstrap_form_for(:game, :url => league_game_path(@league)) do |f|
-  = f.select :location
-  = home_team
-  = away_team
-  = start_time
+= bootstrap_form_for(:game, :url => league_games_path(:league_id => @league.id)) do |f|
+  = f.select(:location, @league.locations.collect {|l| [l.name, l.id]}, {:include_blank => true})
+  = f.select(:home, @league.teams.collect {|t| [t.name, t.id]},{ :include_blank => true})
+  = f.select(:away, @league.teams.collect {|t| [t.name, t.id]},{ :include_blank => true})
   = f.text_field :start_time, 'data-behavior' => 'datetimepicker'
-  = duration
-
-  = f.text_field :name, :placeholder => "The name of the team"
-  = f.text_field :manager_email_address, :placeholder => "Email for team manager", :type => :email
 
   = f.actions do
-    = [f.submit("Create Team"), f.cancel].join(" ").html_safe
+    = [f.submit("Create Game"), f.cancel].join(" ").html_safe

@@ -6,6 +6,46 @@
       %a{:href => league_path(@league)}
         = @league.name
 
-
 .pull-right
   %a.btn.btn-primary{:href => new_league_game_path(@league)} New Game
+
+%h2 Games
+%table.table.table-bordered.table-striped
+  %tr
+    %th Date
+    %th Time
+    %th Home
+    %th Away
+    %th Location
+    %th Notes
+    %th Result
+    %th &nbsp;
+
+  - if @league.games.empty?
+    %tr
+      %td{:colspan => 6}
+        %h3.text-center
+          No Games
+
+  - @league.games.each do |game|
+    %tr
+      %td
+        = game.start_time.strftime("%b %d")
+      %td
+        = game.start_time.strftime("%I:%M %p")
+      %td
+        %a{:href => team_path(game.home)}= game.home.name
+      %td
+        %a{:href => team_path(game.away)}= game.away.name
+      %td
+        %a{:href => league_location_path(:league_id => game.league.id, :id => game.location)}= game.location.name
+      %td
+        = game.notes
+      %td
+        - if game.home_score && game.away_score
+          = "#{game.home_score} - #{game.away_score}"
+        - else
+          &nbsp;
+      %td
+        = bootstrap_form_for game, :method => :delete, :url => league_game_path(:league_id => @league.id, :id => game.id) do |f|
+          = f.submit("X")
